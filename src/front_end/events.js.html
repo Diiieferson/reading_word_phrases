@@ -1,0 +1,62 @@
+<script>
+    //Punctuation and special characters don't count as words, so (# Hello World ! in one line in the HTML output)
+
+    $('.btn').on('click', function (e) {
+        e.preventDefault()
+
+        // var firstData = firstData.replace(/[^\w\s]/gi, '')
+        // var secondData = secondData.replace(/[^\w\s]/gi, '')
+        
+        // save data front end into variable
+        var firstData = $("#first-word").val().trim()
+        var secondData = $("#second-word").val().trim()
+
+        console.log(firstData)
+        console.log(secondData)
+
+        $('.phrase h3').remove()
+        $('.preloader').addClass('progress')
+
+        // call function inside back end
+        google.script.run.withSuccessHandler(function(result) {
+
+            // Count how many spaces has the word
+            var spacesData1 = result[0].split(" ")
+            var spacesData2 = result[1].split(" ")
+
+            var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            let count1 = 0;
+            for(let i = 0; i < spacesData1.length; i++) {
+              // console.log(spacesData1[i].match(format))
+              if (!spacesData1[i].match(format)) {
+                count1++;
+              }
+            }
+
+            let count2 = 0;
+            for(let i = 0; i < spacesData2.length; i++) {
+              if(!spacesData2[i].match(format)) {
+                count2++;
+              }
+            }
+
+            // If the word has more than 1 space, then make two lines, else make one line
+            // if ((spacesData1?.length - 1) >= 1 || (spacesData2?.length - 1) >= 1) {
+            if (count1 > 1 || count2 > 1) {
+                $('.phrase').append(`
+                    <h3>${result[0]}</h3>
+                    <h3>${result[1]}</h3>
+                `)
+                $('.preloader').removeClass('progress')
+            } else {
+                $('.phrase').append(`
+                    <h3>${result[0]} ${result[1]}</h3>
+                `)
+                $('.preloader').removeClass('progress')
+            }
+
+        }).saveData(firstData, secondData)
+
+    })
+
+</script>
