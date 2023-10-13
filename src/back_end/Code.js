@@ -2,7 +2,6 @@ function doGet() {
     return HtmlService.createTemplateFromFile('src/front_end/index.html').evaluate()
 }
 
-
 /**
  * @function - includes the files scripts and css files
  *

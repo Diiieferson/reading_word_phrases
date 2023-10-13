@@ -3,16 +3,10 @@
 
     $('.btn').on('click', function (e) {
         e.preventDefault()
-
-        // var firstData = firstData.replace(/[^\w\s]/gi, '')
-        // var secondData = secondData.replace(/[^\w\s]/gi, '')
-        
+      
         // save data front end into variable
         var firstData = $("#first-word").val().trim()
         var secondData = $("#second-word").val().trim()
-
-        console.log(firstData)
-        console.log(secondData)
 
         $('.phrase h3').remove()
         $('.preloader').addClass('progress')
